@@ -46,6 +46,7 @@ jobs:
 
       # Now update another repo so that ArgoCD can deploy the new version.
       - name: Check out my other private repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
           repository: uvarc/uvarc-services
+          token: ${{ secrets.GHCR_PAT }}
