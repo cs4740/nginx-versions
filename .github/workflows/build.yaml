@@ -28,15 +28,8 @@ jobs:
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
 
-      # # Extract metadata (tags, labels) for Docker
-      # - name: Extract Docker metadata
-      #   id: meta
-      #   uses: docker/metadata-action@v1
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       # Build and push Docker image with Buildx (don't push on PR)
-      - name: Build and push Docker image
+      - name: Build-Push container image
         id: build-and-push
         uses: docker/build-push-action@v2
         with:
@@ -45,8 +38,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       # Now update another repo so that ArgoCD can deploy the new version.
-      - name: Check out my other private repo
-        uses: actions/checkout@v3
-        with:
-          repository: uvarc/uvarc-services
-          token: ${{ secrets.GHCR_PAT }}
+      - name: Remote Dispatch for deployment repo
+        run: |
+          curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -u ${{ secrets.GITHUB_USERNAME }}:${{ secrets.GITHUB_PAT }} \
+            --data '{"event_type": "Version update", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
