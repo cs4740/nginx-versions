@@ -53,5 +53,5 @@ jobs:
             -X POST \
             -H "Accept: application/vnd.github+json" \ 
             -H "Authorization: Bearer ${{ secrets.GITHUB_PAT }}" \
-            https://api.github.com/repos/OWNER/REPO/actions/workflows/WORKFLOW_ID/dispatches \
+            https://api.github.com/repos/uvarc/uavrc-services/actions/workflows/dispatch.yaml/dispatches \
             -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
