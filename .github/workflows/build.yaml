@@ -40,8 +40,9 @@ jobs:
       # Now update another repo so that ArgoCD can deploy the new version.
       - name: Remote Dispatch for deployment repo
         run: |
-          curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
-            -H 'Content-Type: application/json' \
-            -H 'Accept: application/vnd.github.everest-preview+json' \
-            -u ${{ secrets.GITHUB_USERNAME }}:${{ secrets.GITHUB_PAT }} \
-            --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
+          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/uvarc/uvarc-services/actions/workflows/dispatch.yaml/dispatches --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
+          # curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
+          #   -H 'Content-Type: application/json' \
+          #   -H 'Accept: application/vnd.github.everest-preview+json' \
+          #   -u ${{ secrets.GITHUB_USERNAME }}:${{ secrets.GITHUB_PAT }} \
+          #   --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
