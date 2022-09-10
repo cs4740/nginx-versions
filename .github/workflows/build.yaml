@@ -38,11 +38,20 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       # Now update another repo so that ArgoCD can deploy the new version.
-      - name: Remote Dispatch for deployment repo
-        run: |
-          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/uvarc/uvarc-services/actions/workflows/dispatch.yaml/dispatches --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
+      # - name: Remote Dispatch for deployment repo
+      #   run: |
+      #     curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/uvarc/uvarc-services/actions/workflows/dispatch.yaml/dispatches --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
           # curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
           #   -H 'Content-Type: application/json' \
           #   -H 'Accept: application/vnd.github.everest-preview+json' \
           #   -u ${{ secrets.GITHUB_USERNAME }}:${{ secrets.GITHUB_PAT }} \
           #   --data '{"event_type": "Version update ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
+
+      - name: Remove Dispatch 2
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \ 
+            -H "Authorization: Bearer ${{ secrets.GITHUB_PAT }}" \
+            https://api.github.com/repos/OWNER/REPO/actions/workflows/WORKFLOW_ID/dispatches \
+            -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
