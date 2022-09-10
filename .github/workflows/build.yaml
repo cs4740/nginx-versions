@@ -13,6 +13,7 @@ jobs:
   build-push-docker:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       packages: write
@@ -28,7 +29,7 @@ jobs:
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PAT }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
+      # Build and push Docker image with Buildx
       - name: Build-Push container image
         id: build-and-push
         uses: docker/build-push-action@v2
