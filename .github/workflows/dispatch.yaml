@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Event Information
         run: |
-          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+          echo "Event '${{ github.event.action }}' received. Increase service ''${{ github.event.client_payload.service }}' to version '${{ github.event.client_payload.version }}'"
