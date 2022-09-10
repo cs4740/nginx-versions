@@ -43,3 +43,9 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      # Now update another repo so that ArgoCD can deploy the new version.
+      - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: uvarc/uvarc-services
