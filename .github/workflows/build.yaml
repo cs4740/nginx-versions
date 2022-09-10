@@ -43,4 +43,4 @@ jobs:
           curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
             -H 'Accept: application/vnd.github.everest-preview+json' \
             -H "Authorization: token ${{ secrets.GHCR_PAT }}" \
-            --data '{"event_type": "Version update", "client_payload": { "service": "nginx-versions", "version": "1.7" }}'
+            --data '{"event_type": "Update to ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginx-versions", "version": "${{ env.IMAGE_TAG }}" }}'
