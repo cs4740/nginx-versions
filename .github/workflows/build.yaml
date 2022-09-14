@@ -8,6 +8,7 @@ env:
   REGISTRY: quay.io
   IMAGE_NAME: uvarc/nginx-versions
   IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER }}
+  SVC_NAME: nginxVersionsVersion
 
 jobs:
   build-push-docker:
@@ -44,4 +45,4 @@ jobs:
           curl -X POST https://api.github.com/repos/uvarc/uvarc-services/dispatches \
             -H 'Accept: application/vnd.github.everest-preview+json' \
             -H "Authorization: token ${{ secrets.GHCR_PAT }}" \
-            --data '{"event_type": "${{ env.IMAGE_NAME }} update to ${{ env.IMAGE_TAG }}", "client_payload": { "service": "nginxVersionsVersion", "version": "${{ env.IMAGE_TAG }}" }}'
+            --data '{"event_type": "${{ env.IMAGE_NAME }} update to ${{ env.IMAGE_TAG }}", "client_payload": { "service": "${{ env.SVC_NAME }}", "version": "${{ env.IMAGE_TAG }}" }}'
