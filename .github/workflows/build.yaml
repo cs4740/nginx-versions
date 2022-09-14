@@ -38,6 +38,22 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: quay.io
+          username: nmagee
+          password: ${{ secrets.QUAY_PASS }}
+
+      # Build and push Docker image with Buildx
+      - name: Build-Push container image
+        id: build-and-push
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: quay.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          labels: ${{ steps.meta.outputs.labels }}
+
       # Now update another repo so that ArgoCD can deploy the new version.
       - name: Remote Dispatch
         run: |
