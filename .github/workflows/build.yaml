@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: quay.io
-  IMAGE_NAME: uvarc/nginx-versions
+  IMAGE_NAME: cs4740/nginx-versions
   IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER }}
   SVC_NAME: nginxVersionsVersion
 
