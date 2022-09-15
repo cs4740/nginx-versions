@@ -36,7 +36,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: quay.io/uvarc/nginx-versions:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
       # Now update another repo so that ArgoCD can deploy the new version.
@@ -99,5 +100,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: uvarc/nginx-versions:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
