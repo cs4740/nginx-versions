@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cs4740/nginx-versions
+  # You can tag the container image based on run number or git tag
   # IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER }}
   IMAGE_TAG: ${{ github.ref_name }}
   SVC_NAME: nginxVersions
@@ -26,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Set version in page
+      - name: Set version in web page
         run: |
           sed -i -e "s/ZZZ/$IMAGE_TAG/g" "index.html"
 
