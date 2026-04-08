@@ -10,4 +10,3 @@ Make changes to this repository, add/commit/push and the following happens:
 
 See the running container here: [http://nginx-versions.pods.uvarc.io/](http://nginx-versions.pods.uvarc.io/)
 
-Neal making a change.
